@@ -48,7 +48,7 @@ def deepsleep():
 def deepsleep(time_ms):
     """Stops the CPU and all peripherals (including networking interfaces, if any). Execution is resumed from the main script, just as with a reset. If a value in milliseconds is given then the device will wake up after that period of time, otherwise it will remain in deep sleep until the reset button is pressed."""
     pass
-    
+
 #
 # Miscellaneous functions -
 # https://docs.pycom.io/pycom_esp32/library/machine.html#miscellaneous-functions
@@ -80,29 +80,6 @@ WDT_RESET=2
 DEEPSLEEP_RESET=3
 SOFT_RESET=4
 BROWN_OUT_RESET=5
-
-if __name__ == "__main__":
-    def ref_machine():
-        reset()
-
-        rc = reset_cause()
-
-        irq = disable_irq()
-        enable_irq()
-        enable_irq(irq)
-
-        f = freq()
-
-        idle()
-
-        deepsleep()
-        deepsleep(int())
-
-        main("main.py")
-
-        r = rng()
-
-        uuid = unique_id()
 
 # https://docs.pycom.io/pycom_esp32/library/machine.ADC.html
 class ADC(object):
@@ -159,18 +136,6 @@ Warning: ADC pin input range is 0-1.1V. This maximum value can be increased up t
         """Disable the ADC channel."""
         pass
 
-if __name__ == "__main__":
-    def ref_machine_ADC():
-        a = ADC()
-        a.init()
-        a.deinit()
-
-        ch = a.channel(pin=str())
-        ch.init()
-        ch.deinit()
-        v = ch()
-        v = ch.value()
-
 # https://docs.pycom.io/pycom_esp32/library/machine.DAC.html
 class DAC(object):
     """class DAC – digital to analog conversion
@@ -185,7 +150,7 @@ Usage:
     dac_tone = machine.DAC('P21')   # create a DAC object
     dac_tone.tone(1000, 0)          # set tone output to 1kHz
 """
-    
+
     def __init__(self, pin):
         """Create a DAC object, that will let you associate a channel with a pin. pin can be a string argument."""
         super().__init__(pin=pin)
@@ -206,14 +171,6 @@ Usage:
     def tone(self, frequency, amplitude):
         """Sets up tone signal to the specified frequency at amplitude scale. frequency can be from 125Hz to 20kHz. amplitude is an integer specifying the tone amplitude to write the DAC pin. Amplitude value represents: 0 is 0dB, 1 is 6dB, 2 is 12dB, 3 is 18dB."""
         pass
-
-if __name__ == "__main__":
-    def ref_machine_DAC():
-        d = DAC(str())
-        d.init()
-        d.deinit()
-        d.write(float())
-        d.tone(int(), int())
 
 # https://docs.pycom.io/pycom_esp32/library/machine.I2C.html
 class I2C(object):
@@ -290,22 +247,6 @@ The return value is the number of bytes written."""
         return int()
 
     MASTER=0 # for initialising the bus to master mode
-    
-if __name__ == "__main__":
-    def ref_machine_I2C():
-        i2c = I2C()
-        i2c.init(I2C.MASTER)
-        addrs = i2c.scan()
-        for a in addrs:
-            b = i2c.readfrom(a, int())
-            n = i2c.readfrom_into(a, b)
-
-            n = i2c.writeto(a, b)
-
-        b = i2c.readfrom_mem(int(), int(), int())
-        n = i2c.readfrom_mem_into(int(), int(), b)
-        
-        n = i2c.writeto_mem(int(), int(), b)
 
 # https://docs.pycom.io/pycom_esp32/library/machine.Pin.html
 class Pin(object):
@@ -465,7 +406,7 @@ Note: For more information on how Pycom’s products handle interrupts, see http
         P21=Pin('P21', mode=Pin.IN, pull=Pin.PULL_DOWN, alt=-1)
         P22=Pin('P22', mode=Pin.IN, pull=Pin.PULL_DOWN, alt=-1)
         P23=Pin('P23', mode=Pin.IN, pull=None, alt=-1)
-    
+
     IN=1
     OUT=2
     OPEN_DRAIN=7
@@ -478,31 +419,6 @@ Note: For more information on how Pycom’s products handle interrupts, see http
     IRQ_LOW_LEVEL=4
     IRQ_HIGH_LEVEL=5
 
-if __name__ == "__main__":
-    def ref_machine_Pin():
-        p = Pin.module.P0
-        i = p.id()
-
-        v = p()
-        p(bool())
-        v = p.value()
-        p.value(bool())
-
-        p.toggle()
-
-        m = p.mode()
-        p.mode(int())
-
-        pull = p.pull()
-        p.pull(int())
-
-        h = p.hold()
-        p.hold(int())
-
-        def p_handler(arg):
-            pass
-        p.callback(int(), p_handler)
-
 # https://docs.pycom.io/pycom_esp32/library/machine.PWM.html
 class PWM(object):
     """class PWM – Pulse width modulation"""
@@ -510,7 +426,7 @@ class PWM(object):
     def __init__(self, timer, frequency):
         """Create a PWM object. This sets up the timer to oscillate at the specified frequency. timer is an integer from 0 to 3. frequency is an integer from 1 to 19455 Hz (this values can change in future upgrades)."""
         super().__init__(timer=timer, frequency=frequency)
-    
+
     def channel(self, id, pin, *, duty_cycle=0.5):
         """Connect a PWM channel to a pin, setting the intial duty cycle. id is an integer from 0 to 7. pin is a string argument. duty_cycle is a keyword-only float argument, with values between 0 and 1. Returns an instance of PWMChannel."""
         return PWMChannel(id, pin, duty_cycle=duty_cycle)
@@ -520,13 +436,6 @@ class PWMChannel(object):
     def duty_cycle(self, value):
         """Set the duty cycle for a PWM channel. value is a float argument, with values between 0 and 1."""
         pass
-
-if __name__ == "__main__":
-    def ref_machine_PWM():
-        pwm = PWM(int(), int())
-
-        ch = v.channel(int(), str())
-        ch.duty_cycle(float())
 
 # https://docs.pycom.io/pycom_esp32/library/machine.RTC.html
 class RTC(object):
@@ -570,7 +479,7 @@ Note: tzinfo is ignored by this method. Use time.timezone to achieve similar res
     - update_period is the number of seconds between updates. Shortest period is 15 seconds.
 
 Can be used like:
-    rtc.ntp_sync("pool.ntp.org") # this is an example. You can select a more specific server according to your geographical 
+    rtc.ntp_sync("pool.ntp.org") # this is an example. You can select a more specific server according to your geographical
         """
         pass
     def calibration(self):
@@ -615,14 +524,6 @@ The idea was extracted from http://www.romanblack.com/one_sec.htm , which in tur
         """
         return int()
 
-if __name__ == "__main__":
-    def ref_machine_RTC():
-        rtc = RTC()
-        rtc.init((int(), int(), int(), int(), int(), int(), int(), None))
-
-        cal = rtc.calibration()
-        rtc.calibration(int())
-
 # https://docs.pycom.io/pycom_esp32/library/machine.SD.html
 class SD(object):
     """class SD – Secure digital memory card
@@ -664,12 +565,6 @@ Note: Please note that the SD card library currently supports FAT16/32 formatted
     def deinit(self):
         """Disable the SD card."""
         pass
-
-if __name__ == "__main__":
-    def ref_machine_SD():
-        sd = SD(int())
-        sd.init()
-        sd.deinit()
 
 # https://docs.pycom.io/pycom_esp32/library/machine.SPI.html
 class SPI(object):
@@ -714,20 +609,9 @@ Only required parameter is mode, must be SPI.MASTER. Polarity can be 0 or 1, and
     def write_readinto(self, write_buf, read_buf):
         """Write from write_buf and read into read_buf. Both buffers must have the same length. Returns the number of bytes written"""
         return int()
-    
+
     MASTER=0
     MSB=0
-
-if __name__ == "__main__":
-    def ref_machine_SPI():
-        spi = SPI(int(), mode=SPI.MASTER)
-        spi.init(SPI.MASTER, pins=None)
-        spi.deinit()
-
-        n = spi.write(bytes())
-        b = spi.read(int())
-        n = spi.readinto(bytes())
-        n = spi.write_readinto(bytes(), bytes())
 
 # https://docs.pycom.io/pycom_esp32/library/machine.Timer.html
 class Timer(object):
@@ -743,11 +627,11 @@ Hint: You can create as many of these objects as needed.
     @staticmethod
     def sleep_us(time_us):
         """Delay for a given number of microseconds, should be positive or 0 (for speed, the condition is not enforced). Internally it uses the same timer as the other elements of the Timer class. It compensates for the calling overhead, so for example, 100 us should be really close to 100us. For times bigger than 10,000 us it releases the GIL to let other threads run, so exactitude is not guaranteed for delays longer than that."""
-        pass    
+        pass
 
     class Chrono(object):
         """class Chrono – measure time spans
-        
+
 Usage example:
     from machine import Timer
     import time
@@ -808,32 +692,14 @@ Usage example:
 
 Note: For more information on how Pycom’s products handle interrupts, see https://docs.pycom.io/pycom_esp32/pycom_esp32/toolsandfeatures.html#pycom-interrupt-handling.
         """
-        def __init__(self, handler, s, *, arg=None, periodic=False):
+        def __init__(self, handler, s, *, ms=int(), us=int(), arg=None, periodic=False):
             """Create an Alarm object.
     - handler: will be called after the interval has elapsed. If set to None, the alarm will be disabled after creation.
     - arg: an optional argument can be passed to the callback handler function. If None is specified, the function will receive the object that triggered the alarm.
     - s, ms, us: the interval can be specified in seconds (float), miliseconds (integer) or microseconds (integer). Only one at a time can be specified.
     - periodic: an alarm can be set to trigger repeatedly by setting this parameter to True.
             """
-            super().__init__(handler=handler, s=s, arg=arg, periodic=periodic)
-            if handler is not None: handler(self if arg is None else arg)
-        def __init__(self, handler, *, ms, arg=None, periodic=False):
-            """Create an Alarm object.
-    - handler: will be called after the interval has elapsed. If set to None, the alarm will be disabled after creation.
-    - arg: an optional argument can be passed to the callback handler function. If None is specified, the function will receive the object that triggered the alarm.
-    - s, ms, us: the interval can be specified in seconds (float), miliseconds (integer) or microseconds (integer). Only one at a time can be specified.
-    - periodic: an alarm can be set to trigger repeatedly by setting this parameter to True.
-            """
-            super().__init__(handler=handler, ms=ms, arg=arg, periodic=periodic)
-            if handler is not None: handler(self if arg is None else arg)
-        def __init__(self, handler, *, us, arg=None, periodic=False):
-            """Create an Alarm object.
-    - handler: will be called after the interval has elapsed. If set to None, the alarm will be disabled after creation.
-    - arg: an optional argument can be passed to the callback handler function. If None is specified, the function will receive the object that triggered the alarm.
-    - s, ms, us: the interval can be specified in seconds (float), miliseconds (integer) or microseconds (integer). Only one at a time can be specified.
-    - periodic: an alarm can be set to trigger repeatedly by setting this parameter to True.
-            """
-            super().__init__(handler=handler, us=us, arg=arg, periodic=periodic)
+            super().__init__(handler=handler, s=s, ms=ms, us=us, arg=arg, periodic=periodic)
             if handler is not None: handler(self if arg is None else arg)
         def callback(self, handler, *, arg=None):
             """Specify a callback handler for the alarm. If set to None, the alarm will be disabled.
@@ -844,34 +710,6 @@ An optional argument arg can be passed to the callback handler function. If None
         def cancel(self):
             """Diables the alarm"""
             pass
-
-
-if __name__ == "__main__":
-    def ref_machine_Timer():
-        Timer.sleep_us(int())
-
-        chrono = Timer.Chrono()
-        chrono.start()
-        chrono.stop()
-        chrono.reset()
-
-        r = chrono.read()
-        r = chrono.read_ms()
-        r = chrono.read_us()
-
-        def alarm_handler(arg):
-            pass
-
-        alarm = Timer.Alarm(None, s=float())
-        alarm = Timer.Alarm(None, ms=int())
-        alarm = Timer.Alarm(None, us=int())
-
-        alarm = Timer.Alarm(alarm_handler, s=float())
-        alarm = Timer.Alarm(alarm_handler, ms=int())
-        alarm = Timer.Alarm(alarm_handler, us=int())
-
-        alarm.callback(alarm_handler)
-        alarm.cancel()
 
 # https://docs.pycom.io/pycom_esp32/library/machine.UART.html
 class UART(object):
@@ -916,12 +754,12 @@ To check if there is anything to be read, use:
         """Return the number of characters available for reading."""
         return int()
     def read(self):
-        """Read characters. 
+        """Read characters.
 Return value: a bytes object containing the bytes read in. Returns None on timeout."""
         return bytes()
         return None
     def read(self, nbytes):
-        """Read characters. If nbytes is specified then read at most that many bytes. 
+        """Read characters. If nbytes is specified then read at most that many bytes.
 Return value: a bytes object containing the bytes read in. Returns None on timeout."""
         return bytes()
         return None
@@ -930,7 +768,7 @@ Return value: a bytes object containing the bytes read in. Returns None on timeo
 Return value: a bytes object or None on timeout."""
         return bytes()
         return None
-    
+
     def readinto(self, buf):
         """Read at most len(buf) bytes into the buf.
 Return value: number of bytes read and stored into buf or None on timeout."""
@@ -960,21 +798,6 @@ Return value: number of bytes written or None on timeout."""
 
     RX_ANY=int()
 
-if __name__ == "__main__":
-    def ref_machine_UART():
-        uart = UART(0)
-        uart.init(pins=None)
-        uart.init(pins=(Pin.module.P1, Pin.module.P0, Pin.module.P1, Pin.module.P0))
-
-        n = uart.any()
-        b = uart.read(int())
-        b = uart.readall()
-        n = uart.readinto(bytes())
-        n = uart.readinto(bytes(), int())
-        l = uart.readline()
-        n = uart.write(bytes())
-        tx = uart.sendbreak()
-
 # https://docs.pycom.io/pycom_esp32/library/machine.WDT.html
 class WDT(object):
     """class WDT – watchdog timer
@@ -993,8 +816,3 @@ Availability of this class: pyboard, WiPy.
     def feed(self):
         """Feed the WDT to prevent it from resetting the system. The application should place this call in a sensible place ensuring that the WDT is only fed after verifying that everything is functioning correctly."""
         pass
-
-if __name__ == "__main__":
-    def ref_machine_WDT():
-        wdt = WDT()
-        wdt.feed()

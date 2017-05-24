@@ -13,9 +13,3 @@ def heartbeat(enable):
 def rgbled(color):
     """Set the color of the RGB LED. The color is specified as 24 bit value represeting red, green and blue, where the red color is represented by the 8 most significant bits. For instance, passign the value 0x00FF00 will light up the LED in a very bright green."""
     pass
-
-if __name__ == "__main__":
-    def ref_pycom():
-        hb = heartbeat()
-        heartbeat(bool())
-        rgbled(int())
