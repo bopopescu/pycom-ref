@@ -183,24 +183,24 @@ Example:
     from machine import I2C
 
     i2c = I2C(0)                         # create on bus 0
-    i2c = I2C(0, I2C.MASTER)             # create and init as a master
-    i2c.init(I2C.MASTER, baudrate=20000) # init as a master
+    i2c = I2C(0, I2C.MASTER)             # create and init as a main
+    i2c.init(I2C.MASTER, baudrate=20000) # init as a main
     i2c.deinit()                         # turn off the peripheral
 
 Printing the i2c object gives you information about its configuration.
 
-A master must specify the recipient’s address:
+A main must specify the recipient’s address:
     i2c.init(I2C.MASTER)
-    i2c.writeto(0x42, '123')        # send 3 bytes to slave with address 0x42
+    i2c.writeto(0x42, '123')        # send 3 bytes to subordinate with address 0x42
     i2c.writeto(addr=0x42, b'456')  # keyword for address
 
-Master also has other methods:
-    i2c.scan()                          # scan for slaves on the bus, returning
+Main also has other methods:
+    i2c.scan()                          # scan for subordinates on the bus, returning
                                         #   a list of valid addresses
-    i2c.readfrom_mem(0x42, 2, 3)        # read 3 bytes from memory of slave 0x42,
-                                        #   starting at address 2 in the slave
-    i2c.writeto_mem(0x42, 2, 'abc')     # write 'abc' (3 bytes) to memory of slave 0x42
-                                        # starting at address 2 in the slave, timeout after 1 second"""
+    i2c.readfrom_mem(0x42, 2, 3)        # read 3 bytes from memory of subordinate 0x42,
+                                        #   starting at address 2 in the subordinate
+    i2c.writeto_mem(0x42, 2, 'abc')     # write 'abc' (3 bytes) to memory of subordinate 0x42
+                                        # starting at address 2 in the subordinate, timeout after 1 second"""
 
     def __init__(self, bus=0, **kwargs):
         """Construct an I2C object on the given bus. bus can only be 0. If the bus is not given, the default one will be selected (0)."""
@@ -219,34 +219,34 @@ Master also has other methods:
         return [int(), int()]
 
     def readfrom(self, addr, nbytes):
-        """Read nbytes from the slave specified by addr. Returns a bytes object with the data read."""
+        """Read nbytes from the subordinate specified by addr. Returns a bytes object with the data read."""
         return bytes()
 
     def readfrom_into(self, addr, buf):
-        """Read into buf from the slave specified by addr. The number of bytes read will be the length of buf.
+        """Read into buf from the subordinate specified by addr. The number of bytes read will be the length of buf.
 Return value is the number of bytes read."""
         return int(len(buf))
 
     def writeto(self, addr, buf):
-        """Write the bytes from buf to the slave specified by addr.
+        """Write the bytes from buf to the subordinate specified by addr.
 Return value is the number of bytes written."""
         return int()
 
     def readfrom_mem(self, addr, memaddr, nbytes):
-        """Read nbytes from the slave specified by addr starting from the memory address specified by memaddr."""
+        """Read nbytes from the subordinate specified by addr starting from the memory address specified by memaddr."""
         return bytes()
 
     def readfrom_mem_into(self, addr, memaddr, buf):
-        """Read into buf from the slave specified by addr starting from the memory address specified by memaddr. The number of bytes read is the length of buf.
+        """Read into buf from the subordinate specified by addr starting from the memory address specified by memaddr. The number of bytes read is the length of buf.
 The return value is the number of bytes read."""
         return int(len(buf))
 
     def writeto_mem(self, addr, memaddr, buf):
-        """Write buf to the slave specified by addr starting from the memory address specified by memaddr.
+        """Write buf to the subordinate specified by addr starting from the memory address specified by memaddr.
 The return value is the number of bytes written."""
         return int()
 
-    MASTER=0 # for initialising the bus to master mode
+    MASTER=0 # for initialising the bus to main mode
 
 # https://docs.pycom.io/pycom_esp32/library/machine.Pin.html
 class Pin(object):
@@ -568,8 +568,8 @@ Note: Please note that the SD card library currently supports FAT16/32 formatted
 
 # https://docs.pycom.io/pycom_esp32/library/machine.SPI.html
 class SPI(object):
-    """class SPI – a master-driven serial protocol
-SPI is a serial protocol that is driven by a master. At the physical level there are 3 lines: SCK, MOSI, MISO.
+    """class SPI – a main-driven serial protocol
+SPI is a serial protocol that is driven by a main. At the physical level there are 3 lines: SCK, MOSI, MISO.
 
 See usage model of I2C; SPI is very similar. Main difference is parameters to init the SPI bus:
     from machine import SPI
